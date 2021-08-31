@@ -10,22 +10,25 @@ services:
     depends_on:
       - oracle
     environment:
-      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@192.168.0.108:1521/xe
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@192.168.0.246:1521/xe
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     networks:
       - backend-network
   oracle:
-    image: oraclelinux:8.4
+    image: jaspeen/oracle-xe-11g
     container_name: oracle
+    volumes:
+      - ~/docker/data:/u01/app/oracle jaspeen/oracle-xe-11g
     hostname: oracle
     networks:
       - backend-network
+    stdin_open: true
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      ORACLE_ROOT_PASSWORD: root
     restart: always
     ports:
-      - '3306:3306'
+      - '1521:1521'
 volumes:
   data:
 networks:
